@@ -64,7 +64,6 @@
 		"irc": "irc://irc.freenode.net/yii",
 		"source": "https://github.com/yiisoft/yii"
 	},
-	"minimum-stability": "stable",
 	"bin": [
 		"framework/yiic"
 	],
