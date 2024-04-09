@@ -334,7 +334,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * @param string $id a key identifying the cached value
 	 * @return boolean
 	 */
-	public function offsetExists($id)
+	public function offsetExists($id): bool
 	{
 		return $this->get($id)!==false;
 	}
@@ -345,7 +345,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * @param string $id a key identifying the cached value
 	 * @return mixed the value stored in cache, false if the value is not in the cache or expired.
 	 */
-	public function offsetGet($id)
+	public function offsetGet($id): mixed
 	{
 		return $this->get($id);
 	}
@@ -358,7 +358,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * @param string $id the key identifying the value to be cached
 	 * @param mixed $value the value to be cached
 	 */
-	public function offsetSet($id, $value)
+	public function offsetSet($id, $value): void
 	{
 		$this->set($id, $value);
 	}
@@ -369,7 +369,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * @param string $id the key of the value to be deleted
 	 * @return boolean if no error happens during deletion
 	 */
-	public function offsetUnset($id)
+	public function offsetUnset($id): void
 	{
 		$this->delete($id);
 	}
