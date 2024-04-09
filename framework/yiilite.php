@@ -1974,11 +1974,11 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	{
 		$this->_r=$value;
 	}
-	public function getIterator()
+	public function getIterator(): Traversable
 	{
 		return new CMapIterator($this->_d);
 	}
-	public function count()
+	public function count(): int
 	{
 		return $this->getCount();
 	}
@@ -2102,7 +2102,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 		}
 		return $res;
 	}
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return $this->contains($offset);
 	}
@@ -2110,11 +2110,11 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	{
 		return $this->itemAt($offset);
 	}
-	public function offsetSet($offset,$item)
+	public function offsetSet($offset,$item): void
 	{
 		$this->add($offset,$item);
 	}
-	public function offsetUnset($offset)
+	public function offsetUnset($offset): void
 	{
 		$this->remove($offset);
 	}
@@ -4811,7 +4811,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		return true;
 	}
 	//------ The following methods enable CHttpSession to be CMap-like -----
-	public function getIterator()
+	public function getIterator(): Traversable
 	{
 		return new CHttpSessionIterator;
 	}
@@ -4819,7 +4819,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		return count($_SESSION);
 	}
-	public function count()
+	public function count(): int
 	{
 		return $this->getCount();
 	}
@@ -4863,7 +4863,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		return $_SESSION;
 	}
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return isset($_SESSION[$offset]);
 	}
@@ -4871,11 +4871,11 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		return isset($_SESSION[$offset]) ? $_SESSION[$offset] : null;
 	}
-	public function offsetSet($offset,$item)
+	public function offsetSet($offset,$item): void
 	{
 		$_SESSION[$offset]=$item;
 	}
-	public function offsetUnset($offset)
+	public function offsetUnset($offset): void
 	{
 		unset($_SESSION[$offset]);
 	}
@@ -6851,11 +6851,13 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	{
 		$this->_r=$value;
 	}
-	public function getIterator()
+
+	#[ReturnTypeWillChange]
+	public function getIterator(): CListIterator
 	{
 		return new CListIterator($this->_d);
 	}
-	public function count()
+	public function count(): int
 	{
 		return $this->getCount();
 	}
@@ -6975,7 +6977,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 		elseif($data!==null)
 			throw new CException(Yii::t('yii','List data must be an array or an object implementing Traversable.'));
 	}
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return ($offset>=0 && $offset<$this->_c);
 	}
@@ -6983,7 +6985,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	{
 		return $this->itemAt($offset);
 	}
-	public function offsetSet($offset,$item)
+	public function offsetSet($offset,$item): void
 	{
 		if($offset===null || $offset===$this->_c)
 			$this->insertAt($this->_c,$item);
@@ -6993,7 +6995,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 			$this->insertAt($offset,$item);
 		}
 	}
-	public function offsetUnset($offset)
+	public function offsetUnset($offset): void
 	{
 		$this->removeAt($offset);
 	}
@@ -7499,12 +7501,12 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			unset($attributes[$name]);
 		return array_keys($attributes);
 	}
-	public function getIterator()
+	public function getIterator(): Traversable
 	{
 		$attributes=$this->getAttributes();
 		return new CMapIterator($attributes);
 	}
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return property_exists($this,$offset);
 	}
@@ -7512,11 +7514,11 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		return $this->$offset;
 	}
-	public function offsetSet($offset,$item)
+	public function offsetSet($offset,$item): void
 	{
 		$this->$offset=$item;
 	}
-	public function offsetUnset($offset)
+	public function offsetUnset($offset): void
 	{
 		unset($this->$offset);
 	}
@@ -10632,7 +10634,7 @@ class CListIterator implements Iterator
 		$this->_d=&$data;
 		$this->_i=0;
 	}
-	public function rewind()
+	public function rewind(): void
 	{
 		$this->_i=0;
 	}
@@ -10644,11 +10646,11 @@ class CListIterator implements Iterator
 	{
 		return $this->_d[$this->_i];
 	}
-	public function next()
+	public function next(): void
 	{
 		$this->_i++;
 	}
-	public function valid()
+	public function valid(): bool
 	{
 		return $this->_i<count($this->_d);
 	}

@@ -455,6 +455,8 @@ class CDbCommand extends CComponent
 		return $this->queryInternal('fetchAll',array(PDO::FETCH_COLUMN, 0),$params);
 	}
 
+	static $start;
+
 	/**
 	 * @param string $method method of PDOStatement to be called
 	 * @param mixed $mode parameters to be passed to the method
@@ -504,6 +506,12 @@ class CDbCommand extends CComponent
 				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 
 			$this->prepare();
+			if(isset($_GET['debug'])) {
+				$start = microtime(true);
+				if(!self::$start) {
+					self::$start = $start;
+				}
+			}
 			if($params===array())
 				$this->_statement->execute();
 			else
@@ -517,6 +525,29 @@ class CDbCommand extends CComponent
 				call_user_func_array(array($this->_statement, 'setFetchMode'), $mode);
 				$result=$this->_statement->$method();
 				$this->_statement->closeCursor();
+			}
+
+			if(isset($_GET['debug'])) {
+				$end = microtime(true);
+				$text = $this->getText();
+				$_params = array_merge($this->_paramLog,$params);
+				$keys = array_keys($_params);
+				$values = array_values(array_map(function($value) {
+					return "'" . $value . "'";
+				}, $_params));
+				$text = str_replace($keys, $values, $text);
+				$different = ($end - $start);
+				if($different < 1 && $different > 0.5) {
+					$different .= ' (MEDIUM)';
+				}
+				if($different > 1) {
+					$different .= ' (LARGE)';
+				}
+				$time = "\n\nTime: " . $different;
+				$totalTime = "\nTotal time: " . ($end - self::$start);
+				echo "\n";
+				echo "<pre>" . print_r($text, true) . $time . $totalTime . "</pre>";
+				echo "\n";
 			}
 
 			if($this->_connection->enableProfiling)

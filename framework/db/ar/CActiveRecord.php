@@ -1926,7 +1926,7 @@ abstract class CActiveRecord extends CModel
 	 * @param mixed $offset the offset to check on
 	 * @return boolean
 	 */
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return $this->__isset($offset);
 	}

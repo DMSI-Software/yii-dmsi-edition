@@ -444,7 +444,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * This method is required by the interface IteratorAggregate.
 	 * @return CHttpSessionIterator an iterator for traversing the session variables.
 	 */
-	public function getIterator()
+	#[ReturnTypeWillChange]
+	public function getIterator(): CHttpSessionIterator
 	{
 		return new CHttpSessionIterator;
 	}
@@ -463,7 +464,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * This method is required by Countable interface.
 	 * @return integer number of items in the session.
 	 */
-	public function count()
+	public function count(): int
 	{
 		return $this->getCount();
 	}
@@ -560,7 +561,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * @param mixed $offset the offset to check on
 	 * @return boolean
 	 */
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return isset($_SESSION[$offset]);
 	}
@@ -570,7 +571,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * @param integer $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
-	public function offsetGet($offset)
+	public function offsetGet($offset): mixed
 	{
 		return isset($_SESSION[$offset]) ? $_SESSION[$offset] : null;
 	}
@@ -580,7 +581,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * @param integer $offset the offset to set element
 	 * @param mixed $item the element value
 	 */
-	public function offsetSet($offset,$item)
+	public function offsetSet($offset,$item): void
 	{
 		$_SESSION[$offset]=$item;
 	}
@@ -589,7 +590,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * This method is required by the interface ArrayAccess.
 	 * @param mixed $offset the offset to unset element
 	 */
-	public function offsetUnset($offset)
+	public function offsetUnset($offset): void
 	{
 		unset($_SESSION[$offset]);
 	}
